@@ -3,6 +3,10 @@ import { useState } from 'react'
 import { useInView, MagneticBtn } from '../hooks.jsx'
 import { Odometer } from './Odometer.jsx'
 
+const CONTACT_EMAIL = 'michael@trysigil.io'
+const CONTACT_PHONE_DISPLAY = '+1 (323) 973-3437'
+const CONTACT_PHONE_TEL = '+13239733437'
+
 export function Pricing() {
   const [priceRef, seen] = useInView(0.85)
   return (
@@ -140,7 +144,20 @@ export function Contact() {
     if (!form.restaurant.trim()) next.restaurant = 'Required'
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(form.email)) next.email = 'Enter a valid email'
     setErr(next)
-    if (Object.keys(next).length === 0) setSent(true)
+    if (Object.keys(next).length > 0) return
+
+    const subject = `Pilot request — ${form.restaurant.trim()}`
+    const body = [
+      `Name: ${form.name.trim()}`,
+      `Restaurant: ${form.restaurant.trim()}`,
+      `Email: ${form.email.trim()}`,
+      `Phone: ${form.phone.trim() || '—'}`,
+      `Monthly delivery sales: ${form.sales.trim() ? '$' + form.sales.trim() + '/mo' : '—'}`,
+      '',
+      form.message.trim() || '(no additional notes)',
+    ].join('\n')
+    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+    setSent(true)
   }
 
   return (
@@ -161,18 +178,13 @@ export function Contact() {
             <div className="contact__direct reveal" data-delay="180">
               <div className="contact__chan">
                 <span className="cap">Email</span>
-                <a className="ul" href="mailto:hello@marginback.com">hello@marginback.com</a>
+                <a className="ul" href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
               </div>
               <hr className="rule" />
               <div className="contact__chan">
                 <span className="cap">Phone</span>
-                <a className="ul" href="tel:+18005550199">+1 (800) 555-0199</a>
+                <a className="ul" href={`tel:${CONTACT_PHONE_TEL}`}>{CONTACT_PHONE_DISPLAY}</a>
                 <span className="contact__note">Mon–Fri, 9–6 ET · a person, not a bot</span>
-              </div>
-              <hr className="rule" />
-              <div className="contact__chan">
-                <span className="cap">Office</span>
-                <span className="contact__addr num">114 Mercer St, Suite 4<br />New York, NY 10012</span>
               </div>
             </div>
           </div>
@@ -229,10 +241,11 @@ export function Contact() {
                 <div className="cform__check" aria-hidden="true">
                   <svg viewBox="0 0 48 48" width="48" height="48"><circle cx="24" cy="24" r="22" fill="none" stroke="var(--green)" strokeWidth="1.5" /><path d="M15 24.5l6.5 6.5L33 18" fill="none" stroke="var(--green)" strokeWidth="2" strokeLinecap="square" /></svg>
                 </div>
-                <h3 className="cform__doneh">Got it, {form.name.split(' ')[0] || 'thanks'}.</h3>
+                <h3 className="cform__doneh">Almost there, {form.name.split(' ')[0] || 'thanks'}.</h3>
                 <p className="cform__donep">
-                  Your request is in. We’ll email <strong>{form.email}</strong> within one business day with the exact margin
-                  we can recover for {form.restaurant || 'your restaurant'}.
+                  We’ve opened a pre-filled email to our team — just hit send. If nothing opened, reach us directly at{' '}
+                  <a className="ul" href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent('Pilot request — ' + (form.restaurant || ''))}`}>{CONTACT_EMAIL}</a>.
+                  We reply within one business day with the exact margin we can recover for {form.restaurant || 'your restaurant'}.
                 </p>
                 <div className="cform__donefoot">
                   <span className="cap">Reference</span>
@@ -265,8 +278,8 @@ export function Footer() {
             </div>
             <div>
               <span className="cap">Company</span>
-              <a href="#">About</a>
-              <a href="#">The math, explained</a>
+              <a href="#problem">The problem</a>
+              <a href="#math">The math, explained</a>
               <a href="#contact">Contact</a>
             </div>
             <div>

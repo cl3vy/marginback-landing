@@ -152,6 +152,7 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 500; margin: 0; letter-spac
   will-change: transform;
 }
 .btn:hover { background: var(--green-deep); }
+.btn:disabled { opacity: 0.6; cursor: progress; pointer-events: none; }
 .btn--sm { --pad-y: 9px; --pad-x: 16px; font-size: 13.5px; }
 .btn--ghost {
   background: transparent; color: var(--ink); border-color: var(--rule-strong);
