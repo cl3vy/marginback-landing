@@ -6,7 +6,7 @@ import { Problem } from './components/Problem.jsx'
 import { MathLedger } from './components/MathLedger.jsx'
 import { Calculator } from './components/Calculator.jsx'
 import { HowItWorks, Features } from './components/Steps.jsx'
-import { Pricing, Guarantee, SocialProof, FinalCTA, Contact, Footer } from './components/Closing.jsx'
+import { Pricing, Guarantee, /* SocialProof, */ FinalCTA, Contact, Footer } from './components/Closing.jsx'
 
 function ScrollProgress() {
   const ref = useRef(null)
@@ -54,7 +54,13 @@ export default function App() {
         <Features />
         <Pricing />
         <Guarantee />
-        <SocialProof />
+        {/*
+          We can enable this testimonials / social-proof section any time —
+          just uncomment the import above and the <SocialProof /> line below.
+          Disabled for now because we don't have anyone using the product yet,
+          so there are no real testimonials to show.
+        */}
+        {/* <SocialProof /> */}
         <FinalCTA />
         <Contact />
       </main>
